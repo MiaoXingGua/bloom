@@ -1,0 +1,172 @@
+
+<html>
+<head>
+
+<!-- A.head JS : 它已经被载入了。但不会执行，需要触发 -->
+<script type="text/javascript">
+// ....
+</script>
+
+
+<!-- C.外部 JS : 使用外部 JavaScript 不能包含 <script> 标签，使用标签中的 "src" 属性。（方便维护） -->
+<script src="xxx.js">
+// ...
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- 
+	<script> 标签:<script type="text/javascript"> 和 </script> 就可以告诉浏览器 JavaScript 从何处开始，到何处结束。
+
+	B.body JS : 载入页面时，触发JS。一般用来生成页面的内容。
+
+	那些不支持 JavaScript 的浏览器会把脚本作为页面的内容来显示。为了防止这种情况发生，我们可以使用这样的 HTML 注释标签：
+	1. 浏览器识别JS  ：识别// html注释标签被注释
+	2. 浏览器不识别JS ：不识别// html注释标签不会被注释 JS代码会被注释掉
+ -->
+<script type="text/javascript">
+
+<!--
+document.write("Hello World!");//document.write 字段是标准的 JavaScript 命令，用来向页面写入输出。
+//--> 
+
+// 代码块
+{
+	document.write("<h1>This is a header</h1>");
+	document.write("<p>This is a paragraph</p>");
+	document.write("<p>This is another paragraph</p>");
+}
+
+var x = 5;
+var x; //如果您再次声明了 JavaScript 变量，该变量也不会丢失其原始值。
+
+x + 5 == 10;
+x + "5" == "55";
+
+/*
+	UI 消息框:
+*/
+/*
+	警告框:
+	当警告框出现后，用户需要点击确定按钮才能继续进行操作。
+*/
+alert("文本");
+/*
+确认框:
+与警告框相似，多了返回值
+如果用户点击确认，那么返回值为 true。如果用户点击取消，那么返回值为 false。
+*/
+confirm("文本");
+/*
+提示框
+与警告框相似，多了可自定义的返回值
+如果用户点击确认，那么返回值为输入的值。如果用户点击取消，那么返回值为 null。
+*/
+prompt("title","textFelid中的默认值，可以为空");
+
+
+function myfunction(txt){
+	alert(txt);
+}
+
+</script>
+
+<!-- 注释行末尾的两个正斜杠是 JavaScript 的注释符号，它会阻止 JavaScript 编译器对这一行的编译。 -->
+<!-- 
+<form> 标签用于为用户输入创建 HTML 表单。
+
+表单能够包含 input 元素，比如文本字段、复选框、单选框、提交按钮等等。
+
+表单用于向服务器传输数据。
+
+属性 :action 规定当提交表单时，向何处发送表单数据。
+
+ -->
+<!-- button -->
+<form action="form_action.asp" method="get">
+
+<!-- type=按钮 触发时机=点击 显示=文字 -->
+<!-- 	
+		onclick 单击
+		ondblclick 双击
+ -->
+<input type="button" onclick = myfunction('你好') value="btn上文字">
+
+<!-- type=文本输入框 触发时机=text内容改变(完成) 显示=文字 -->
+<!-- onFocus 成为焦点
+	 onBlur 失去焦点
+     onChange 内容改变 事件通常相互配合用来验证表单。 -->
+<input type="text" onchange="checkEmail()" size="30" id="email" >
+
+<!--
+	 onSubmit 用于在提交表单之前验证所有的表单域。
+	下面是一个使用 onSubmit 事件的例子。当用户单击表单中的确认按钮时，checkForm() 函数就会被调用。假若域的值无效，此次提交就会被取消。checkForm() 函数的返回值是 true 或者 false。如果返回值为true，则提交表单，反之取消提交。	
+ -->
+<form method="post" action="xxx.htm" onsubmit=return checkForm()>
+
+
+<!-- 
+
+	onMouseOver 当鼠标移动到对象上
+	onMouseOut  当鼠标移动到对象上
+
+ -->
+ <a href="http://www.W3CSchool.cn" onmouseover="alert('An onMouseOver event');return false">
+"文字"
+</a>
+
+</form>
+
+<script type="text/javascript">
+
+//使用 onerror 检查错误 (老式方法，现在基本不用了,用try...catch)
+onerror = function handleErr1(msg,url,l)
+{
+
+var txt="There was an error on this page.\n\n"
+
+txt+="Error: " + msg + "\n"
+
+txt+="URL: " + url + "\n"
+
+txt+="Line: " + l + "\n\n"
+
+txt+="Click OK to continue.\n\n"
+
+alert(txt)
+
+return true
+}
+
+//try 检查错误
+try
+{
+   //在此运行代码
+   adddlert("Welcome guest!")
+}
+catch(err)
+{
+   //在此处理错误
+	txt="本页中存在错误。\n\n"
+
+   txt+="错误描述：" + err.description + "\n\n"
+
+   txt+="点击“确定”继续。\n\n"
+
+   if(!confirm(txt))
+   {
+
+    document.location.href="http://www.W3CSchool.cn/"
+
+   }
+}
+</script>
+
+</body>
+
+</html>
+

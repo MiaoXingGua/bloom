@@ -1,0 +1,47 @@
+html{
+	word-wrap:break-word;
+	-webkit-hyphens:auto;
+	-moz-hyphens:auto;
+	-ms-hyphens:auto;
+	-o-hyphens:auto;
+	hyphens:auto;
+	word-break:break-all;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	-webkit-touch-callout:none;
+	-webkit-user-drag:none;
+	-webkit-tap-highlight-color:transparent;
+	-webkit-text-size-adjust:none;
+	-webkit-font-smoothing:antialiased
+}
+
+body{
+	width:320px;
+	margin:0 auto
+}
+
+footer{
+	width:320px
+}
+
+.nice_icon{
+	width:320px
+}
+
+#btn_mark_download{
+	width:320px
+}
+
+#btn_register_download img{
+	width:320px;
+	overflow:hidden
+}
+
+.hot_pictures_carousel{
+	width:320px
+}
+
+.mask{
+	width:320px
+}

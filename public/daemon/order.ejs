@@ -1,0 +1,411 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <% include model/head.ejs%>
+</head>
+
+<body>
+
+
+<!-- 顶部 start-->
+<% include model/topbar.ejs%>
+<!-- 顶部 end-->
+
+<!-- 中部 start-->
+<div class="am-cf admin-main">
+
+  <!-- 侧边栏sidebar start -->
+  <% include model/sidebar.ejs %>
+  <!-- 侧边栏sidebar end -->
+
+  <!-- 内容content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">订单管理</strong> / <small>Table</small></div>
+    </div>
+
+    <div class="am-g">
+
+      <!-- 顶部1(左对齐) -->
+      <div class="am-u-md-6 am-cf">
+        <div class="am-fl am-cf">
+          <!--工具栏-->
+          <div class="am-btn-toolbar am-fl">
+
+            <!-- 工具1 -->
+            <div class="am-btn-group am-btn-group-xs">
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+            </div>
+
+            <!-- 工具2 -->
+            <div class="am-form-group am-margin-left am-fl">
+              <select>
+                <option value="option1">所有类别</option>
+                <option value="option2">IT业界</option>
+                <option value="option3">数码产品</option>
+                <option value="option3">笔记本电脑</option>
+                <option value="option3">平板电脑</option>
+                <option value="option3">只能手机</option>
+                <option value="option3">超极本</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 顶部2(右对齐) -->
+      <div class="am-u-md-3 am-cf">
+        <div class="am-fr">
+          <!--工具栏-->
+          <div class="am-input-group am-input-group-sm">
+
+            <!--工具2-->
+
+            <input id="search_order" type="text" class="am-form-field" aria-controls="">
+            <span class="am-input-group-btn">
+              <button type="button" class="am-btn am-btn-default am-round" onclick = searchOrder()>搜索</button>
+            </span>
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="am-g">
+      <div class="am-u-sm-12">
+
+        <table class="am-table am-table-striped am-table-hover">
+
+            <thead>
+
+            <tr>
+              <th class="table-check">
+                <input type="checkbox" />
+
+                <th class="table-type">订单号
+                <th class="table-type">类别
+                <th class="table-type">订单状态
+
+                <th class="table-title">配送状态
+
+
+                <th class="table-date">预约发货日期
+
+                <th class="table-set">操作
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+                <%  orders.forEach(function (order){ %>
+
+              <tr>
+
+                <td><input type="checkbox" />
+
+                <td><%=order.orderNO%>
+                <td><%=order.type%>
+
+                <!--订单状态-->
+                <!--type默认是submit在form中会导致页面刷新-->
+                <td><button type="button"
+                            class="<%=order.stateClass%>"
+                            data-am-popover="{content: '支付方式 : <%=order.payMethod%><br/> 支付金额 : <%=order.totalPrice%><br/> 支付流水号(后8位) : <br/><%=order.tradeNO%><br/>', trigger: 'hover focus'}">
+                    <span><%=order.stateString%></span></button>
+
+                <!--配送状态-->
+                <td>
+                      <button type="button"
+                              class="<%=order.deliveryStateClass%>"
+                              data-am-modal="{target: '#delivery_<%=order.objectId%>'}">
+                          <%=order.deliveryStateString%>
+                      </button>
+
+                      <div class="am-popup" id="delivery_<%=order.objectId%>">
+                          <div class="am-popup-inner">
+                              <div class="am-popup-hd">
+                                  <h4 class="am-popup-title"><%=order.deliveryStateString%></h4>
+                                  <span data-am-modal-close
+                                        class="am-close">&times;</span>
+                              </div>
+                              <div class="am-popup-bd">
+
+                                  收货人姓名:<%=order.deliveryName%> </br>
+                                  收货人电话:<%=order.deliveryPhone%> </br>
+                                  收货人住址:<%=order.deliveryAddress%> </br>
+
+                                  <% if (order.deliverymanName){%>
+                                    配送人:<%=order.deliverymanName%> </br>
+                                  <%}%>
+
+                                  <% if (order.deliveryCode){%>
+                                    签收码:<%=order.deliveryCode%> </br>
+                                    位置: </br>
+                                    <%  order.locations.forEach(function (location){ %>
+                                        <%=location.loc%> </br>
+                                    <% }); %>
+
+                                  <% } %>
+
+                              </div>
+                          </div>
+                      </div>
+
+
+                <td>
+                      <%=order.deliveryCountdown%>
+                      <% if (order.deliveryCountdown.match("剩余")){ %>
+                        <%=order.deliveryCountdown %>
+                      <%}%>
+
+                </td>
+                <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <% if (order.deliveryCode && (order.state==1||order.state==2||order.state==3)){%>
+
+                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                    data-am-modal="{target: '#repostCode_<%=order.deliveryId%>'}">
+                                <span class="am-icon-pencil-square-o"></span> 重发验证短信
+                            </button>
+
+                            <div class="am-popup" id="repostCode_<%=order.deliveryId%>">
+                                <div class="am-popup-inner">
+                                    <div class="am-popup-hd">
+                                        <h4 class="am-popup-title"><%=order.deliveryPhone%></h4>
+                                        <span data-am-modal-close class="am-close">&times;</span>
+                                    </div>
+                                    <div class="am-popup-bd">
+                                        【Bloom】您的礼品已在途中，单号【<%=order.orderNO%>】，收件密码【<%=order.deliveryCode%>】，预计90分钟内到达，请保持电话畅通。
+                                        </br>
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick = repostCode('<%=order.deliveryId%>')>
+                                            <span class="am-icon-pencil-square-o"></span> 发送验证
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        <%}%>
+
+                      <!--<button class="am-btn am-btn-default am-btn-xs">-->
+                        <!--<span class="am-icon-copy"></span> 复制-->
+                      <!--</button>-->
+                      <!--<button class="am-btn am-btn-default am-btn-xs am-text-danger">-->
+                        <!--<span class="am-icon-trash-o"></span> 删除</button>-->
+                    </div>
+                  </div>
+
+              </tr>
+
+            <% }); %>
+
+            </tbody>
+        </table>
+
+        <div class="am-cf">
+  共 <%=totalNumber%> 条记录
+            第 <%=page%> 页
+
+  <code style=""></code>
+
+  <div class="am-fr">
+    <ul class="am-pagination">
+
+
+
+
+      <div class="am-btn-group">
+        <%if (page==1 && ((page-1)*100+orders.length>=totalNumber)){%>
+
+        <!--没有上一页也没有下一页-->
+
+          <button disabled
+                  type="button"
+                  class="am-btn am-btn-default"
+                  onclick = changePage(-1)>上一页</button>
+
+          <button disabled
+                  type="button"
+                  class="am-btn am-btn-default"
+                  onclick = changePage(1)>下一页</button>
+
+        <%}else if(page==1){%>
+        <!--没有上一页-->
+          <button disabled
+                  type="button"
+                  class="am-btn am-btn-default"
+                  onclick = changePage(-1)>上一页</button>
+
+          <button type="button"
+                  class="am-btn am-btn-primary am-radius"
+                  onclick = changePage(1)>下一页</button>
+
+        <%}else if((page-1)*100+orders.length>=totalNumber){%>
+
+        <!--没有下一页-->
+
+            <button type="button"
+                    class="am-btn am-btn-primary am-radius"
+                    onclick = changePage(-1)>上一页</button>
+
+            <button disabled
+                    type="button"
+                    class="am-btn am-btn-default"
+                    onclick = changePage(1)>下一页</button>
+
+        <%}else{%>
+
+            <button type="button"
+                    class="am-btn am-btn-default"
+                    onclick = changePage(-1)>上一页</button>
+
+            <button type="button"
+                    class="am-btn am-btn-primary am-radius"
+                    onclick = changePage(1)>下一页</button>
+
+        <%}%>
+      </div>
+
+      <!--<li class="am-active"><a href="#">1</a></li>-->
+      <!--<li><a href="#">2</a></li>-->
+      <!--<li><a href="#">3</a></li>-->
+      <!--<li><a href="#">4</a></li>-->
+      <!--<li><a href="#">5</a></li>-->
+      <!--<li><a href="#">»</a></li>-->
+    </ul>
+  </div>
+</div>
+          <hr />
+          <p>注：<button type="button"
+                       class="am-btn am-btn-default"
+                       onclick = repostCode()>xxxxxx</button></p>
+
+            <div class="am-alert" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>没什么可给你，但求凭这阙歌。谢谢你风雨里，都不退愿陪着我。</p>
+            </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- 内容content end -->
+
+</div>
+<!-- 中部end -->
+<!--deliveryCountdown-->
+<script>
+
+    var search = <%=search%>;
+    if (search){
+        document.getElementById("search_order").value = search;
+    }
+
+    var searchOrder = function(){
+        var search = document.getElementById("search_order").value;
+
+        var URL = window.location.href;
+
+        if (URL.indexOf("?")<0)  //不包含?
+        {
+            URL += "?search=" + search;
+        }
+        else
+        {
+
+            URL = URL.replace(/(\?.*)/,"?search=" + search);
+        }
+
+        window.location.href = URL;
+    }
+
+    function changePage(state){
+
+        var URL = window.location.href;
+
+        if (URL.indexOf("?")<0)  //不包含?
+        {
+            URL += "?page=" + (parseInt(<%=page%>)+state);
+        }
+        else if (URL.indexOf("page")<0) //不包含page
+        {
+            URL += "&page=" + (parseInt(<%=page%>)+state);
+        }
+        else
+        {
+            URL = URL.replace(/(page=[0-9]*)/, "page="+(parseInt(<%=page%>)+state));
+
+        }
+        window.location.href = URL;
+    }
+
+    function getURL(){
+        var curWwwPath = window.document.location.href;
+        //获取主机地址之后的目录，如： cis/website/meun.htm
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName); //获取主机地址，如： http://localhost:8080
+        var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        var rootPath = localhostPaht + projectName;
+        return rootPath;
+
+    }
+
+    var repostCode = function(deliveryId){
+
+//        alert(window.location.host);
+//        alert(document.domain);
+//        alert(window.document.location.href);
+//
+        var URL = "http://" + window.location.host + "/delivery/repostCode";
+        alert(URL);
+        $.ajax({
+
+            type: 'POST',
+            url: URL ,
+            data: {
+                deliveryId:deliveryId,
+                userId:"1"
+            } ,
+            cache:false,
+            dataType:'json',
+            success:function(data) {
+
+                alert(JSON.stringify(data));
+            },
+            error : function(data) {
+
+                alert(JSON.stringify(data));
+            }
+        });
+    }
+
+
+</script>
+
+<button id="hehe" type="button" class="am-btn am-btn-primary btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText: '加载中...', resetText: '加载过了'}">Submit - Button</button>
+
+<!-- 底部 start-->
+<% include model/footer.ejs%>
+
+<!-- 底部 end-->
+<!--
+
+    customEvaluate
+
+    http://flowerso2o.avosapps.com/order/custom_evaluate/{{orderId}}
+-->
+
+</body>
+</html>
+

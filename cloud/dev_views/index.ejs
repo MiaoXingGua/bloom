@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<!--<script src="/lib/WebSocket/websocket.js"></script>-->
+	<!--sina获取ip接口数据，注意charset -->
+	<script type="text/javascript" src="http://counter.sina.com.cn/ip/" charset="utf-8"></script>
+<head>
+<body>
+
+
+<!--<script type="text/javascript">-->
+	<!--document.writeln("IP地址："+ILData[0]+"<br />"); //输出接口数据中的IP地址-->
+	<!--document.writeln("地址类型："+ILData[1]+"<br />"); //输出接口数据中的IP地址的类型-->
+	<!--document.writeln("地址类型："+ILData[2]+"<br />"); //输出接口数据中的IP地址的省市-->
+	<!--document.writeln("地址类型："+ILData[3]+"<br />"); //输出接口数据中的IP地址的-->
+	<!--document.writeln("地址类型："+ILData[4]+"<br />"); //输出接口数据中的IP地址的运营商-->
+<!--</script>-->
+
+<script>
+
+	function GetLocalIPAddress()
+	{
+		return ILData[0];
+	}
+
+
+
+//	var websocket = require("websocket");
+//	var server = websocket.createServer(function (socket) {
+//
+//		socket.write("hello\r\n");
+//
+//		socket.addListener("data", function (data) {
+//			socket.write(data);
+//			alert(data);
+//		});
+//		socket.addListener("end", function () {
+//			socket.write("goodbye\r\n");
+//
+//			socket.end();
+//		});
+//	});
+//	server.listen(7000, GetLocalIPAddress());
+
+	if('WebSocket' in window){
+		// 创建websocket实例
+		var host = 'http://'+GetLocalIPAddress()+':6767';
+		alert(host);
+		var socket = new WebSocket(host);
+		//打开
+		socket.onopen = function(event) {
+			// 发送
+			socket.send('I am the client and I\'m listening!');
+			// 监听
+			socket.onmessage = function(event) {
+				console.log('Client received a message',event);
+				alert('Client received a message',event);
+			};
+			// 关闭监听
+			socket.onclose = function(event) {
+				console.log('Client notified socket has closed',event);
+			};
+			// 关闭
+			//socket.close()
+		};
+	}else{
+		alert('本浏览器不支持WebSocket哦~');
+	}
+
+</script>
+
+</body>
+</html>

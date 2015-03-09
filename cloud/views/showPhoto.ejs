@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="潮流,街头,流行,时尚,球鞋,牛仔裤,时尚杂志,街头文化,潮流品牌,晒物">
+    <meta name="description" content="nice以“今天你穿什么”为核心功能，注重分享与纪录你的真实穿着体验">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" media="(device-height: 568px)">
+    <meta name="apple-itunes-app" content="app-id=641895599">
+    <meta name="format-detection" content="telephone=no" searchtype="map">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="http://www.oneniceapp.com/img/favicon.ico" type="image/x-icon">
+    <title>nice小助手</title>
+    <script>
+        window.nice = {
+            DOWNLOAD_URL: "http://www.oneniceapp.com/",
+            PAGE_ID: "49433055",
+            TUNEUP_URL: "http://127.0.0.1:4545/?sid=49433055",
+            PAGE_TYPE: "photoA",
+            CHANNEL: "wechat_contact",
+            ACTION: "share_photo",
+            PLATFORM: "UNKNOWN",
+            IS_MOBILE_SAFARI: "",
+            IS_FROM_MOBILE_BROWSER: false        };
+    </script>
+
+    <!--<link rel="stylesheet" type="text/css" href="http://www.oneniceapp.com/script/dest/css/wap/photo_a.min.css?13">-->
+    <!--<link rel="stylesheet" type="text/css" href="http://www.oneniceapp.com/script/dest/css/wap/pc_style.min.css?3">-->
+    <!--<script src="http://www.oneniceapp.com/script/dest/js/wap/zepto.min.js?1"></script>-->
+    <!--<script src="http://www.oneniceapp.com/script/dest/js/wap/photo_a.min.js?8"></script>-->
+
+    <link rel="stylesheet" type="text/css" href="/nice/css/wap/photo_a.min.css?13" >
+    <link rel="stylesheet" type="text/css" href="/nice/css/wap/pc_style.min.css?3">
+    <script src="/nice/js/wap/zepto.min.js?1"></script>
+    <script src="/nice/js/wap/photo_a.min.js?8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/showPhoto/css/wapcss.css?91">
+
+</head>
+
+<body>
+
+    <script>
+
+        var escape2Html = function (str) {
+            var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+            return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+        }
+
+        //alert(escape2Html('<%= JSON.stringify(photoDict)%>'));
+
+
+
+        // 传输dict解析(string也可以用,stringify不起作用)
+        var photoDictString = escape2Html('<%= JSON.stringify(photoDict)%>');
+
+//        alert(photoDictString);
+
+        var photoDict = JSON.parse(photoDictString);
+
+//        alert(photoDict);
+
+    </script>
+
+
+
+    <% if (photoDict){ %>
+
+    <!-- 头部 -->
+    <div class="wrap_head">
+        <img src="/showPhoto/img/bloomthat-hero-banner-optimized.jpg" alt="nice" style="width: 100%; height: 100%;" >
+        <div class="download_icons">
+            <a class="ios_download_link" id="ios_download_link" style="display:none;" href="wb2585079848://photo/5472f01ae4b0e157a28fcc1f">进入微行</a>
+            <a class="android_download_link" style="" href="http://apk.gfan.com/baidudownload.php?apk=772291&amp;src=baidupage">下载Android版</a>        </div>
+    </div>
+
+    <!-- 显示主体 -->
+    <!--<div class="wrap_main">-->
+        <div class="main">
+
+            <!-- 图片区域 -->
+            <div class="wrap_img">
+                <img class="main_img" src="<%= photoDict.originalURL %>"  alt="<%= photoDict.originalURL %>" id="cur_img">
+
+                <%  photoDict['tags'].forEach(function (tag){ %>
+
+                <div class="<%= tag.direction %>" data-top="<%= tag.point[1]+10 %>" data-left="<%= tag.point[0] %>" style="display:none">
+
+                    <% if ( tag.direction == "leftTag") {%>
+                        <div class="tagAnimation">
+                            <div class="animationContainer"><span class="black1"></span></div>
+                            <div class="animationContainer"><span class="black2"></span></div>
+                            <div class="animationContainer">
+                                <span class="brand_bg"></span>
+                            </div>
+                        </div>
+                        <div class="tagContent">
+                            <div class="tagContentInfo"><%= tag.title %></div>
+                        </div>
+
+                    <%} else { %>
+                        <div class="tagContent">
+                            <div class="tagContentInfo"><%= tag.title %></div>
+                            <div class="tagAnimation">
+                                <div class="animationContainer"><span class="black1"></span></div>
+                                <div class="animationContainer"><span class="black2"></span></div>
+                                <div class="animationContainer">
+                                    <span class="brand_bg"></span>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+
+                </div>
+
+                <% }) %>
+
+
+        </div>
+    <!--</div>-->
+
+    <!-- 图像下部 -->
+    <div class="up_login">
+        记录个人穿搭品位日记<a class="ios_download_link" style="display:none;" href="http://itunes.apple.com/cn/app/wei-xingyouweek/id823474803">下载iPhone版</a><a class="android_download_link" style="display:none;"href="http://apk.gfan.com/baidudownload.php?apk=772291&src=baidupage">下载Android版</a>
+    </div>
+    <div class="user_r"><h2><%= photoDict['faviconsCount'] %>人赞了</h2>
+        <ul>
+            <%  photoDict['faviconUsers'].forEach(function (user){ %>
+
+            <li><img src=<%= user['headViewURL'] %>></li>
+
+            <% }) %>
+        </ul>
+    </div>
+    <div class="user_r user_r2"><h2><%= photoDict['commentsCount'] %>条评论</h2>
+        <div class="user_list">
+
+            <%  photoDict['comments'].forEach(function (comment){ %>
+            <dl>
+                <dt>
+                    <img src=<%= comment['user']['headViewURL'] %>>
+                </dt>
+                <dd>
+                    <p class="user_info"><span class="u_user"><%= comment['user']['nickname'] %></span><span class="u_time"><%= comment['createdAt']%></span></p>
+                    <p class="u_wen"><%= comment.content.text %></p>
+                </dd>
+            </dl>
+
+            <% }) %>
+
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <P class="more_content">更多内容下载微行YOUWEEK注册加入查看</p>
+    <!-- 底部 -->
+    <div class="wrap_foot">
+        <div class="weibo">关注微博：<a href="http://weibo.com/u/5117347670" target="_blank">@微行YOUWEEK</a></div>
+        <div class="weixin">关注微信公众账号：微行YOUWEEK</div>
+    </div>
+    <div class="mask" style="display:none"></div>
+    <div class="tipContainer" style="display:none">
+        <div class="tipHeader">
+            <img src="/showPhoto/img/photo_detail/nice_tip_icon.png" alt="nice" width="12" height="12"/>
+            微行YOUWEEK提示：
+        </div>
+        <div class="tipContent">
+            <p>下载应用，获得最IN的时装搭配！</p>
+            <p>请点击右上角按钮，在<em>“浏览器中打开”</em>进行下载。</p>
+        </div>
+        <div style="display:none">
+            <script type="text/javascript">
+                var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0a615c950ee719977112f4bc5166ea0c' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </div>
+    </div>
+
+
+
+
+
+    <% } %>
+	  
+    </div>
+</body>
+
+</html>
+
+

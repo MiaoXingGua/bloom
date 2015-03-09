@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todo list</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                   <from id="todofrom" action="">
+                       <label for="">将线面分子放入todo list 中</label>
+                       <input class="form-control" id="" type=""/>
+                   </from>
+                <p id="todoCount"></p>
+                <ol id="todoList"></ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<script>
+
+    /*
+        代码含义:
+            当一个匿名函数被括起来，然后再在后面加一个括号，这个匿名函数就能立即运行起来
+        原理:
+            相当于先定义function xx(){}这个匿名函数,然后调用xx();
+            ()是最高优先级的，所以先执行function(){}，这个定义了一个匿名函数，等于xx=function(){}接着就是调用xx()了;
+        作用:
+            闭包不会污染当前环境
+    */
+    (function(){
+
+        var $todoForm = $('#todoForm');
+        var $todoInput = $('#todoInput');
+        var $todoList = $('#todoList');
+        $todoForm.submit(function(e){
+
+            var input_value = $todoInput.val();
+            $todoList.append('<li>' + input_value + '<a href="#" class="todoDelete">x</a>' + '</li>');
+        });
+
+    })();
+
+</script>
+
+</body>
+</html>

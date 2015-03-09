@@ -1,0 +1,390 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="pragram" content="no-cache" />
+
+
+    <title><%= title %></title>
+
+	<link rel="stylesheet" type="text/css" href="http://www.njvdly.com/skin/zixin/special/20140808weixin2/css/reset.css?v=3.4" />
+	<link rel="stylesheet" type="text/css" href="http://www.njvdly.com/skin/zixin/special/20140808weixin2/css/app.css?v=3.4" />
+	<link rel="stylesheet" type="text/css" href="http://www.njvdly.com/skin/zixin/special/20140808weixin2/css/animation.css?v=3.4" />
+	<link rel="stylesheet" type="text/css" href="http://www.njvdly.com/skin/zixin/special/20140808weixin2/css/units.css?v=3.4" />
+	<link rel="stylesheet" type="text/css" href="http://www.njvdly.com/skin/zixin/special/20140808weixin2/css/modules.css?v=3.4" />
+	<link rel="stylesheet" type="text/css" href="http://www.njvdly.com/skin/zixin/special/20140808weixin2/css/page.css?v=3.4" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/showPhotoToMoments/endpic.css" />
+
+
+    <script src="http://www.lightapp.cn/js/app/offline.js?1397525361"></script>
+
+	<!--微信分享-->
+	<script type="text/javascript" src="cloud/lib/WeixinApi.js"></script>
+
+	<!-- 屏幕适配 -->
+    <script type="text/javascript">
+        //移动端版本兼容
+        if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+            var version = parseFloat(RegExp.$1);
+            if(version>2.3){
+                var phoneScale = parseInt(window.screen.width)/640;
+                document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+            }else{
+                document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+            }
+        }else{
+            document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+        }
+        //微信去掉下方刷新栏
+        if(RegExp("MicroMessenger").test(navigator.userAgent)){
+            document.addEventListener('WeixinJSBridgeReady', function() {
+                //WeixinJSBridge.call('hideToolbar');
+            });
+        }
+    </script>
+    <!--移动端兼容适配 end -->
+
+
+    <!--最后一页的选项卡+倒数第二页的分享-->
+    <!--<script type="text/javascript">-->
+        <!--window.onload = function ()-->
+        <!--{-->
+            <!--&lt;!&ndash;控制最后一页选项卡的开始&ndash;&gt;-->
+                <!--var xtj = document.getElementById("tj");-->
+            <!--var xrm = document.getElementById("rm");-->
+            <!--var stj = document.getElementById("tuijian");-->
+            <!--var srm = document.getElementById("remen");-->
+            <!--stj.onclick = function ()-->
+            <!--{-->
+                <!--stj.className="active";-->
+                <!--srm.className="";-->
+                <!--xtj.style.display = "block";-->
+                <!--xrm.style.display = "none";-->
+            <!--};-->
+            <!--srm.onclick = function ()-->
+            <!--{-->
+                <!--stj.className="";-->
+                <!--srm.className="active";-->
+                <!--xtj.style.display = "none";-->
+                <!--xrm.style.display = "block";-->
+            <!--};-->
+            <!--&lt;!&ndash;控制页面选项卡的结束&ndash;&gt;-->
+            <!--&lt;!&ndash;控制分享的开始&ndash;&gt;-->
+                <!--var oWin = document.getElementById("shareLayer");-->
+            <!--var oBtn = document.getElementById("btnShare");-->
+            <!--oBtn.onclick = function ()-->
+            <!--{-->
+                <!--oWin.style.display = "block"-->
+            <!--};-->
+            <!--oWin.onclick = function ()-->
+            <!--{-->
+                <!--oWin.style.display = "none"-->
+            <!--};-->
+            <!--&lt;!&ndash;控制分享的结束&ndash;&gt;-->
+            <!--};-->
+    <!--</script>-->
+
+
+
+
+</head>
+
+<body class="app" data-app-id="4100" data-ad="true">
+
+	<span style="display:none;" id="activity_id">4100</span>
+
+	<!--音乐OP-->
+	<header class="app-header">
+		<a href="javascript:void(0);" class="u-globalAudio">
+			<i class="icon-music"></i>
+			<audio src="http://ac-g405gbtt.qiniudn.com/Cw2TBL8cAsbjJSvL4C85XsDqCy8DQkrAEngTAxX5.mp3" autoplay="autoplay" loop="loop"></audio>
+		</a>
+	</header>
+	<!--音乐END-->
+
+
+
+	<section class="app-content">
+
+		<!--启动页OP-->
+		<section class="page page-index z-current" data-plugin-type="info_front">
+			<section class="page-content">
+				<img class="m-foregroundImg" src="http://ac-g405gbtt.qiniudn.com/r3AK26T74wlAkp4OGuz0Gt6liyFIdpuqcTUj4sGx.jpg" />
+			</section>
+			<!--<a href="javascript:void(0);" class="u-guideTop z-move">top</a>-->
+		</section>
+		<!--启动页END-->
+
+		<!--左右滑动页OP-->
+		<section class="page page-teletext" data-plugin-type="info_list" style="background: url(http://ac-g405gbtt.qiniudn.com/aa55jYkItjXEqfh9rf4H0cFfUa1RCOuv4Co6fqEM.jpg);">
+			<section class="page-content">
+				<ul class="m-cascadingTeletext">
+					<%  for (var i in photos) {%>
+					<li>
+						<img src="<%= photos[i] %>"/>
+						<div class="imgText">
+							<p class="p1"> <br /></p>
+						</div>
+					</li>
+					<% }%>
+				</ul>
+				<a href="javascript:void(0);" class="u-guidePrev z-move">prev</a>
+				<a href="javascript:void(0);" class="u-guideNext z-move">next</a>
+			</section>
+		</section>
+		<!--左右滑动页END-->
+
+		<!--第三屏-->
+		<!--<section class="page page-link" data-plugin-type="info_link" style="background-image: url(http://appcs.weiqijian.com/Member//Public/upload/7/2/6/8/5450eb7384f71.jpg);">
+		</section>-->
+
+		<!--第四屏-->
+		<!--<section class="page page-link" data-plugin-type="info_link" style="background-image: url(http://appcs.weiqijian.com/Member//Public/upload/0/6/a/6/5450eb7e94395.jpg);">
+		</section>-->
+
+		<!--第五屏-->
+		<section class="page page-link" data-plugin-type="info_link" style="background-image: url(http://wucaicheng.blovemedia.com/upfile/20120929/20120929164503_801.jpg);">
+			<section class="page-content">
+				<div class="m-link">
+					<!--<a href="weixin:share" class="imgLink">-->
+						<!--<img src="http://appcs.weiqijian.com/Member//Public/upload/7/c/0/b/5450eb9475b4d.png" />-->
+					<!--</a>-->
+					<!--&lt;!&ndash;如果是分享链接则输出分享层&ndash;&gt;-->
+					<!--<div class="u-maskLayer m-weixinShareLayer z-hide">-->
+						<!--<img src="/Public/img/weixin-share-guide.png" />-->
+					<!--</div>-->
+				</div>
+			</section>
+		</section>
+
+		<!--最后一屏-->
+		<!--<section class="page m-introduce" data-plugin-type="info_word" style="background-color: #f0eded;">-->
+		<!--<div class='m-page m-bigTxt' data-page-type='bigTxt' data-statics='info_list'>-->
+		<!--<div class="page-con j-txtWrap lazy-img" data-src='/Public/img/END3.jpg'>-->
+		<!--<div class="ad_foot">-->
+		<!--<span class="foot_logo">-->
+		<!--<img class="l" src="http://appcs.weiqijian.com/Member//Public/upload/a/b/a/f/5450eccb6e13b.png" />								<a class="r" id="wx-link" href="http://appcs.weiqijian.com">-->
+		<!--<img alt="点我关注" src="http://nh.weiqijian.com/Member//Public/upload/4/0/e/1/544f70609fab0.png" usemap="#Map" />-->
+		<!--</a>-->
+		<!--</span>-->
+		<!--<h3>-->
+		<!--<a href="javascript:void(0);" class="active" id="tuijian">推荐杂志</a>-->
+		<!--<a href="javascript:void(0);" id="remen">热门杂志</a>-->
+		<!--</h3>-->
+		<!--<div id="list_box">-->
+		<!--<ul id="tj">-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/4/f/9/9/544f158e5ed17.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/2/4/4/7/544e693fb68e6.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/a/c/0/7/544f159a7d55f.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/5/c/e/5/544f101e5b00e.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/8/5/d/a/544f1025efc6d.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/c/1/5/7/544f28b9aeed4.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/1/9/d/6/544f28c1e4552.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/2/6/a/7/544f28caa74c2.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/2/7/e/7/544f28d238abd.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/e/7/f/4/544f506a84f71.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/4/4/1/c/544f50734bbea.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/8/7/6/e/544f507b47ee1.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--</ul>-->
+		<!--<ul style="display: none;" id="rm">-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/5/b/c/0/544f505566729.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/6/f/5/e/544f15a5dcb40.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/5/6/8/4/544f5087a74c2.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/5/f/9/d/544f508f7d55f.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/6/3/8/7/544f509779856.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/3/1/8/2/544f50a5a74c2.jpg" />-->
+		<!--</a>-->
+		<!--</li>-->
+		<!--</ul>-->
+		<!--</div>-->
+		<!--<span class="foots">-->
+		<!--<!--推广的图片-->-->
+		<!--<span class="tg">-->
+		<!--<img src="/Public/img/last_ad_r1_c1.png" />-->
+		<!--</span>-->
+		<!--<span class="foot_img">-->
+		<!--<a href="http://mp.weixin.qq.com/s?__biz=MzA5MzgyNDkxOA==&mid=200895049&idx=1&sn=eb2b9dc4aa4bf49a94f1b9e4fed99f20#rd">-->
+		<!--<img src="http://nh.weiqijian.com/Member//Public/upload/2/3/e/4/544f50320343f.jpg" />-->
+		<!--</a>-->
+		<!--</span>-->
+		<!--</span>-->
+		<!--</div>-->
+		<!--</div>-->
+		<!--</div>-->
+		<!--</section>-->
+	</section>
+
+
+	<script type="text/javascript" src="http://www.njvdly.com/skin/zixin/special/20140808weixin2/js/sea.js"></script>
+	<script type="text/javascript">
+		var assetsVersion = '3.5';
+		seajs.config({
+			map: [
+				[ /^(.*.(?:css|js))(.*)$/i, '$1?ver='+ assetsVersion]
+			]
+		});
+		seajs.use('page/main');
+	</script>
+	<!-- script end-->
+
+	<script type="text/javascript" src="http://www.njvdly.com/skin/zixin/special/20140808weixin2/js/bi.js?v=1406642941">
+
+	</script>
+
+
+	<code id="appId"><%= wxData.appId%></code>
+	<code id="imgUrl"><%= wxData.imgUrl%></code>
+	<code id="desc"><%= wxData.desc%></code>
+	<code id="title"><%= wxData.title%></code>
+	<code id="link"><%= wxData.link%></code>
+
+	<script type="text/javascript">
+
+		// 开启Api的debug模式
+//		WeixinApi.enableDebugMode();
+
+		// 需要分享的内容，请放到ready里
+		WeixinApi.ready(function(Api) {
+
+			// 微信分享的数据
+			var wxData = {
+				"appId"		: document.getElementById("appId").innerText, // 服务号可以填写appId
+				"imgUrl"	: document.getElementById("imgUrl").innerText,
+				"link" 		: window.location.href,
+				"desc" 		: document.getElementById("desc").innerText,
+				"title" 	: document.getElementById("title").innerText
+			};
+
+//			alert();
+
+			// 分享的回调
+			var wxCallbacks = {
+				// 分享操作开始之前
+				ready : function() {
+					// 你可以在这里对分享的数据进行重组
+//					alert("准备分享");
+				},
+				// 分享被用户自动取消
+				cancel : function(resp) {
+					// 你可以在你的页面上给用户一个小Tip，为什么要取消呢？
+//					alert("分享被取消，msg=" + resp.err_msg);
+				},
+				// 分享失败了
+				fail : function(resp) {
+					// 分享失败了，是不是可以告诉用户：不要紧，可能是网络问题，一会儿再试试？
+//					alert("分享失败，msg=" + resp.err_msg);
+				},
+				// 分享成功
+				confirm : function(resp) {
+					// 分享成功了，我们是不是可以做一些分享统计呢？
+//					alert("分享成功，msg=" + resp.err_msg);
+				},
+				// 整个分享过程结束
+				all : function(resp,shareTo) {
+					// 如果你做的是一个鼓励用户进行分享的产品，在这里是不是可以给用户一些反馈了？
+//					alert("分享" + (shareTo ? "到" + shareTo : "") + "结束，msg=" + resp.err_msg);
+				}
+			};
+
+			// 用户点开右上角popup菜单后，点击分享给好友，会执行下面这个代码
+			Api.shareToFriend(wxData, wxCallbacks);
+
+			// 点击分享到朋友圈，会执行下面这个代码
+			Api.shareToTimeline(wxData, wxCallbacks);
+
+			// 点击分享到腾讯微博，会执行下面这个代码
+			Api.shareToWeibo(wxData, wxCallbacks);
+
+			// iOS上，可以直接调用这个API进行分享，一句话搞定
+			Api.generalShare(wxData,wxCallbacks);
+
+			// 有可能用户是直接用微信“扫一扫”打开的，这个情况下，optionMenu是off状态
+			// 为了方便用户测试，我先来trigger show一下
+	//                var elOptionMenu = document.getElementById('optionMenu');
+	//                elOptionMenu.click(); // 先隐藏
+	//                elOptionMenu.click(); // 再显示
+		});
+
+	</script>
+
+</body>
+<footer class="app-footer">
+</footer>
+</html>

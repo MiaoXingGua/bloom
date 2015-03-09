@@ -1,0 +1,21 @@
+{
+  // 包名称
+  "name": "FlowerO2O_CC",
+  // 版本号 http://semver.org major.minor.revision
+  "version": "1.0.0",
+  // 描简介
+  "description": "bloom",
+  // 优先检查
+  "main": "index.js",
+  // 当前包所依赖的包列表 -- 会自动加载依赖包
+  "dependencies": {
+    "moment-timezone": "^0.3.0",
+    "request": "^2.51.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

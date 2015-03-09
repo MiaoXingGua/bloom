@@ -1,0 +1,49 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<body>
+
+
+
+<!--
+
+autoplay  如果出现该属性，则视频在就绪后马上播放。
+controls  如果出现该属性，则向用户显示控件，比如播放按钮。
+width/height 尺寸
+loop  	如果出现该属性，则当媒介文件完成播放后再次开始播放。
+preload  如果出现该属性，则视频在页面加载时进行加载，并预备播放。如果使用 "autoplay"，则忽略该属性。
+scr 要播放的视频的 URL。
+-->
+<video width="320" height="240" controls="controls" preload="auto" autoplay="autoplay" loop="loop">
+
+    <source src="http://www.w3cschool.cn/movie.ogg" type="video/ogg" width="320" height="240" controls="controls">
+
+    <source src="http://www.w3cschool.cn/movie.mp4" type="video/mp4">
+
+    Your browser does not support the video tag.
+
+</video>
+
+<!--
+
+autoplay    如果出现该属性，则音频在就绪后马上播放。
+controls    如果出现该属性，则向用户显示控件，比如播放按钮。
+loop        如果出现该属性，则每当音频结束时重新开始播放。
+preload 	如果出现该属性，则音频在页面加载时进行加载，并预备播放。如果使用 "autoplay"，则忽略该属性。
+src         要播放的音频的 URL。
+
+-->
+<audio src="http://www.w3cschool.cn/song.ogg" controls="controls">
+
+    Your browser does not support the audio tag.
+
+</audio>
+
+<canvas id="myCanvas" width="200" height="100"></canvas>
+
+
+</body>
+
+</html>

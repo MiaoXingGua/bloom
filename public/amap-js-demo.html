@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>逆地理编码</title>
+	<style type="text/css">
+		body{
+			margin:0;
+			height:100%;
+			width:100%;
+			position:absolute;
+		}
+		#mapContainer{
+			position: absolute;
+			top:0;
+			left: 0;
+			right:0;
+			bottom:0;
+		}
+		
+		#tip{
+			min-height:47px;
+			max-height:380px;
+			background-color:#fff;
+			padding-left:10px;
+			padding-right:2px;
+			position:absolute;
+			bottom:5px;
+			font-size:12px;
+			right:10px;
+			border-radius:3px;
+			border:1px solid #ccc;
+		}
+		#tip input[type="button"]{
+			margin-top:10px;
+			background-color: #0D9BF2;
+			height:25px;
+			text-align:center;
+			line-height:25px;
+			color:#fff;
+			font-size:12px;
+			border-radius:3px;
+			outline: none;
+			border:0;
+			cursor:pointer;
+		}
+	</style>
+</head>
+<body>
+    <div id="mapContainer" ></div>
+    <div id="tip"> 
+        <div>
+        	<input type="button" value="逆地理编码" onclick="geocoder()"/>
+        </div>
+        <div id="result"> </div>
+    </div>
+    
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=f58e9841f5fe108be48507ad4de8e86e"></script>
+	<script type="text/javascript">
+		var map = new AMap.Map("mapContainer", {
+			resizeEnable: true,
+	        view: new AMap.View2D({
+	        	center:new AMap.LngLat(116.397428,39.90923),//地图中心点
+	        	zoom:13 //地图显示的缩放级别
+	        })
+	    });
+		//已知点坐标
+		var lnglatXY = new AMap.LngLat(116.396574,39.992706);
+		function geocoder() {
+		    var MGeocoder;
+		    //加载地理编码插件
+		    AMap.service(["AMap.Geocoder"], function() {        
+		        MGeocoder = new AMap.Geocoder({ 
+		            radius: 1000,
+		            extensions: "all"
+		        });
+		        //逆地理编码
+		        MGeocoder.getAddress(lnglatXY, function(status, result){
+		        	if(status === 'complete' && result.info === 'OK'){
+		        		geocoder_CallBack(result);
+		        	}
+		        });
+		    });
+		    //加点
+		    var marker = new AMap.Marker({
+		        map:map,
+		        icon: new AMap.Icon({
+		            image: "http://api.amap.com/Public/images/js/mark.png",
+		            size:new AMap.Size(58,30),
+		            imageOffset: new AMap.Pixel(-32, -0)
+		        }),
+		        position: lnglatXY,
+		        offset: new AMap.Pixel(-5,-30)
+		    });
+		    map.setFitView();
+		}
+		//鼠标划过显示相应点
+		var marker;
+		function onMouseOver (e) {
+		    var coor = e.split(','),
+		        lnglat = new AMap.LngLat(coor[0], coor[1]);
+		    if (!marker) {
+		        marker = new AMap.Marker({
+		            map:map,
+		            icon: "http://webapi.amap.com/images/0.png",
+		            position: lnglat,
+		            offset: new AMap.Pixel(-10, -34)
+		        });
+		    } else {
+		        marker.setPosition(lnglat);
+		    }
+		    map.setFitView();
+		}
+		//回调函数
+		function geocoder_CallBack(data) {
+		    var resultStr = "";
+		    var poiinfo="";
+		    var address;
+		    //返回地址描述
+		    address = data.regeocode.formattedAddress;
+		    //返回周边兴趣点信息
+		    poiinfo += "<table style='width:300px;cursor:pointer;'>";
+		    for(var j=0;j<data.regeocode.pois.length;j++){
+		        var color = j % 2 === 0 ? '#fff' : '#eee';
+		        poiinfo += "<tr onmouseover='onMouseOver(\"" + data.regeocode.pois[j].location.toString() + "\")' style='background-color:" + color + "; margin:0; padding:0;'><td>" + data.regeocode.pois[j].name + "</td><td>距离：" + data.regeocode.pois[j].distance + "米</td></tr>";
+		    }
+		    poiinfo += "</table>";
+		    //返回结果拼接输出
+		    resultStr = "<div style=\"font-size: 12px;padding:0px 0 4px 2px; border-bottom:1px solid #C1FFC1;\">"+"<b>地址</b>："+ address + "<hr/><b>周边兴趣点信息</b>：<br/>" + poiinfo +"</div>";
+		    document.getElementById("result").innerHTML = resultStr;
+		}  
+	</script>
+</body>
+</html>						
+
+	

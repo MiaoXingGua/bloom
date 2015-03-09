@@ -1,0 +1,49 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <% include model/head.ejs%>
+</head>
+
+<body>
+
+
+<!-- 顶部 start-->
+<% include model/topbar.ejs%>
+<!-- 顶部 end-->
+
+<!-- 中部 start-->
+<div class="am-cf admin-main">
+
+  <!-- 侧边栏sidebar start -->
+  <% include model/sidebar.ejs %>
+  <!-- 侧边栏sidebar end -->
+
+  <!-- 内容content start -->
+    <% include model/content.ejs %>
+  <!-- 内容content end -->
+
+</div>
+<!-- 中部end -->
+
+<button class="am-btn am-btn-danger" data-am-modal="{target: '#my-popup'}">Popup</button>
+
+<div class="am-popup" id="my-popup">
+  <div class="am-popup-inner">
+    <div class="am-popup-hd">
+      <h4 class="am-popup-title">...</h4>
+      <span data-am-modal-close
+            class="am-close">&times;</span>
+    </div>
+    <div class="am-popup-bd">
+      ...
+    </div>
+  </div>
+</div>
+<!-- 底部 start-->
+<% include model/footer.ejs%>
+
+<!-- 底部 end-->
+
+
+</body>
+</html>

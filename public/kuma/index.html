@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HelloWorld</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no,target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <meta name="full-screen" content="true"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+
+    <style>
+        body {
+            text-align: center;
+            background: #000000;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+        html {
+            -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+            overflow: hidden;
+        }
+        div, canvas {
+            display:block;
+            position:absolute;
+            margin: 0 auto;
+            padding: 0;
+            border: 0;
+        }
+        div {
+            color: red;
+            visibility: hidden;
+            display: none;
+            /*
+                style="visibility:hidden": 使对象在网页上隐藏,但该对象在网页上所占的空间没有改变.
+                style="display:none": 使对象在网页上彻底消失,不为被隐藏的对象保留物理空间.
+            */
+        }
+    </style>
+
+
+    <!--微信分享 op-->
+    <script type="text/javascript" src="/js/WeixinApi.js"></script>
+    <!--微信分享 end -->
+
+
+</head>
+
+<body>
+
+<code id="dict"><%= dict %></code>
+
+<script>
+    /**
+     *
+     * {    "openid":"oI6zGji3i88cexFjxvX03FSpjQ4Y",
+     *      "nickname":"蹦个大青蛙",
+     *      "sex":1,
+     *      "language":"zh_CN",
+     *      "city":"Haidian",
+     *      "province":"Beijing",
+     *      "country":"CN",
+     *      "headimgurl":"http:\\/\\/wx.qlogo.cn\\/mmopen\\/SDX5alibYgV0h5sibm4lISXjl3tl3rLBnUsk82CQtibmV9Jns9rJEcnDqicDLmQ2ZRvpEmRmNcen5qSnuH0t1THq7OnF56A2Bgca\\/0",
+     *      "privilege":[],
+     *      "unionid":"oLZRBtxIR6K9s4qfOywqJhOUFNpE"
+     *      "state":0
+     *
+     * }
+     */
+
+    var dict = JSON.parse(document.getElementById("dict").innerHTML);
+    alert(document.getElementById("dict").innerHTML);
+//    var pageindex = dict.swithName;
+//    var list = dict.list;
+
+//    var sex = dict.sex;
+//    var headimgurl = dict.headimgurl;
+//    var unionid = dict.unionid;
+
+//    RES.loadConfig("/kuma/resource/resource.json","/kuma/resource/");
+//    egret.gui.Theme.load("/kuma/resource/theme.thm");
+</script>
+
+<code id="wxData"><%= wxData %></code>
+
+<script>
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('showOptionMenu');
+    });
+</script>
+
+<script type="text/javascript">
+
+    // 开启Api的debug模式
+    WeixinApi.enableDebugMode();
+
+    // 需要分享的内容，请放到ready里
+    WeixinApi.ready(function(Api) {
+
+        // 微信分享的数据
+        /**
+         * var wxData = {
+				"appId"		: document.getElementById("appId").innerText, // 服务号可以填写appId
+				"imgUrl"	: document.getElementById("imgUrl").innerText,
+				"link" 		: window.location.href,
+				"desc" 		: document.getElementById("desc").innerText,
+				"title" 	: document.getElementById("title").innerText
+			};
+         */
+        var wxData = JSON.parse(document.getElementById("wxData").innerText);
+
+//		alert(document.getElementById("wxData").innerText);
+
+        // 分享的回调
+        var wxCallbacks = {
+            // 分享操作开始之前
+            ready : function() {
+                // 你可以在这里对分享的数据进行重组
+					alert("准备分享");
+            },
+            // 分享被用户自动取消
+            cancel : function(resp) {
+                // 你可以在你的页面上给用户一个小Tip，为什么要取消呢？
+					alert("分享被取消，msg=" + resp.err_msg);
+            },
+            // 分享失败了
+            fail : function(resp) {
+                // 分享失败了，是不是可以告诉用户：不要紧，可能是网络问题，一会儿再试试？
+					alert("分享失败，msg=" + resp.err_msg);
+            },
+            // 分享成功
+            confirm : function(resp) {
+                // 分享成功了，我们是不是可以做一些分享统计呢？
+					alert("分享成功，msg=" + resp.err_msg);
+            },
+            // 整个分享过程结束
+            all : function(resp,shareTo) {
+                // 如果你做的是一个鼓励用户进行分享的产品，在这里是不是可以给用户一些反馈了？
+					alert("分享" + (shareTo ? "到" + shareTo : "") + "结束，msg=" + resp.err_msg);
+            }
+        };
+
+        // 用户点开右上角popup菜单后，点击分享给好友，会执行下面这个代码
+        Api.shareToFriend(wxData, wxCallbacks);
+
+        // 点击分享到朋友圈，会执行下面这个代码
+        Api.shareToTimeline(wxData, wxCallbacks);
+
+        // 点击分享到腾讯微博，会执行下面这个代码
+        Api.shareToWeibo(wxData, wxCallbacks);
+
+        // iOS上，可以直接调用这个API进行分享，一句话搞定
+        Api.generalShare(wxData,wxCallbacks);
+
+        // 有可能用户是直接用微信“扫一扫”打开的，这个情况下，optionMenu是off状态
+        // 为了方便用户测试，我先来trigger show一下
+        //                var elOptionMenu = document.getElementById('optionMenu');
+        //                elOptionMenu.click(); // 先隐藏
+//                elOptionMenu.click(); // 再显示
+});
+
+</script>
+
+<div style="position:relative;" id="gameDiv"></div>
+<script>var document_class = "Main";</script><!--这部分内容在编译时会被替换，要修改文档类，请到工程目录下的egretProperties.json内编辑。-->
+<script src="/kuma/launcher/egret_require.js"></script>
+<script src="/kuma/launcher/egret_loader.js"></script>
+<script src="/kuma/launcher/game-min.js"></script>
+
+<script>
+    egret_h5.startGame();
+</script>
+
+</body>
+</html>

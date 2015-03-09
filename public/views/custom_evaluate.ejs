@@ -1,0 +1,136 @@
+﻿<!doctype html>
+<html class="no-js">
+<head>
+    <% include ../daemon/model/head.ejs%>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+    <div class="am-alert" data-am-alert>
+        <button type="button" class="am-close">&times;</button>
+        <p>没什么可给你，但求凭这阙歌。谢谢你风雨里，都不退愿陪着我。</p>
+    </div>
+
+    <div class="am-g">
+        <div class="am-u-sm-4-center">
+            <p class="am-text-primary">请对您的礼物进行评价</p>
+        </div>
+
+        <div class="am-u-sm-8-center" >
+            <div class="am-btn-group"
+                 data-am-button
+                 id="btn-group-1">
+                <label class="am-btn am-btn-primary" value="不喜欢">
+                    <input type="radio" name="options" >不喜欢
+                </label>
+                <label class="am-btn am-btn-primary" value="还好啦">
+                    <input type="radio" name="options" >还好啦
+                </label>
+                <label class="am-btn am-btn-primary" value="很喜欢">
+                    <input type="radio" name="options" >很喜欢
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="am-g">
+        <div class="am-u-sm-4-center">
+                <p class="am-text-primary">请对本次快递服务进行评价</p>
+        </div>
+        <div class="am-u-sm-8-center">
+            <div class="am-btn-group" >
+                <div class="am-btn-group test-btn-group"
+                     data-am-button
+                     id="btn-group-2">
+                    <label class="am-btn am-btn-primary" value="不太好">
+                        <input type="radio" name="options" >不太好
+                    </label>
+                    <label class="am-btn am-btn-primary" value="态度一般">
+                        <input type="radio" name="options" >态度一般
+                    </label>
+                    <label class="am-btn am-btn-primary" value="狠满意">
+                        <input type="radio" name="options">狠满意
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="am-u-sm-5 am-u-sm-centered">
+        <button type="button"
+                class="am-btn am-btn-primary btn-loading-update">
+            已提交
+        </button>
+    </div>
+
+    <code id="orderId" value="<%=orderId%>" style="display: none"></code>
+    <script>
+
+
+        $(document).ready(function(){
+            $('button.btn-loading-update').click(function () {
+
+                var gitf = 0;
+                var delivery = 0;
+                var orderId = $('code#orderId').attr('value');
+
+                $("div#btn-group-1 label.am-active").each(function(){
+
+                    gitf = $(this).attr('value');
+                });
+
+                $("div#btn-group-2 label.am-active").each(function(){
+
+                    delivery = $(this).attr('value');
+                });
+
+                if (gitf*delivery==0){
+                    return alert("没填完！！");
+                };
+
+                var URL = "http://flowerso2o.avosapps.com/order/customEvaluate/set/"+orderId;
+                var data = {
+                    gitf:gitf,
+                    delivery:delivery
+                };
+                alert(JSON.stringify(data));
+
+                $.ajax({
+                    type: 'POST',
+                    url: URL ,
+                    data: data ,
+                    cache:false,
+                    dataType:'json',
+                    success:function(data) {
+
+                        var object = data.object;
+
+
+                        if (object)
+                        {
+                            window.location.href="http://www.baidu.com/";
+                        }
+                        else
+                        {
+                            var error = date.error;
+                            alert(JSON.stringify(error));
+                        }
+                    },
+                    error : function(data) {
+
+                        alert(JSON.stringify(data));
+                    }
+                });
+
+            });
+        });
+
+    </script>
+
+
+
+
+</body>
+</html>

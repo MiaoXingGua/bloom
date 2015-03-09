@@ -1,0 +1,107 @@
+
+<html>
+<head>
+
+	<!--百度 jQuery CDN库。-->
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+
+</head>
+
+
+<body>
+<!-- 基础语法： $(selector).action() -->
+
+<!--
+	selector 选择器 (selector语法与css相同)
+
+	"#result" id选择器
+	"p" 标签选择器
+	".class" class选择器
+	"p.class" class+标签选择器
+
+	实例
+	$("*")    					所有元素
+	$(this)      				当前 HTML 元素
+	$("p.intro")        		class 为 intro 的 <p> 元素
+    $("p:first")        		第一个 <p> 元素
+    $("ul li:first")    		第一个 <ul> 元素的第一个 <li> 元素
+    $("ul li:first-child") 		每个 <ul> 元素的第一个 <li> 元素
+    $("[href]") 				带有 href 属性的元素 	在线实例
+	$("a[target='_blank']") 	所有 target 属性值等于 "_blank" 的 <a> 元素
+	$("a[target!='_blank']") 	所有 target 属性值不等于 "_blank" 的 <a> 元素
+	$(":button") 				所有 type="button" 的 <input> 元素 和 <button> 元素
+	$("tr:even") 				偶数位置的 <tr> 元素
+	$("tr:odd") 				奇数位置的 <tr> 元素
+-->
+
+<!--
+	action() 事件
+
+    在元素上移动鼠标。
+    选取单选按钮
+    点击元素
+
+-->
+<script>
+	//文档加载就绪 再执行
+	$(document).ready(function(){
+		$("p").click(function(){
+			$(this).hide();  //隐藏当前元素
+		});
+	});
+
+
+</script>
+<p>段落1</p>
+<p>段落2</p>
+<p>段落3</p>
+
+<script>
+	//因为顺序执行 没有等待文档加载器完成便执行了 所以这里只会隐藏已经加载的的p(段落1、段落2、段落3)
+	$("p").hide(); //隐藏所有(现有的)段落(p)
+	$("#test").hide() //id="test"
+</script>
+
+
+
+<p>段落4</p>
+<p>段落5</p>
+<p>段落6</p>
+
+<script>
+	$(document).ready(function(){
+		$("button.ppp").click(function(){
+			$("p").toggle(1000);    // toggle() 方法来切换 hide() 和 show() 方法。
+		});
+	});
+</script>
+<button class="ppp">显示/隐藏</button>
+
+<!--
+		动画
+		$(selector).fadeIn(speed,callback);
+
+
+-->
+
+<!-- 内嵌CSS -->
+<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div><br>
+<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div><br>
+<div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"></div>
+<button class="ani">动画点我</button>
+<script>
+	$(document).ready(function() {
+		$("button.ani").click(function () {
+			$("#div1").fadeIn();
+			$("#div2").fadeIn("slow");
+			$("#div3").fadeIn(3000);
+		});
+	});
+</script>
+
+</body>
+
+
+
+</html>
+

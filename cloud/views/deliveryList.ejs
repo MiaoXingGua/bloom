@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>我的订单</title>
+  <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.1.0/css/amazeui.min.css">
+
+  <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://cdn.amazeui.org/amazeui/2.1.0/js/amazeui.min.js"></script>
+
+  <!--handlebars.min-->
+  <script src="http://ac-g405gbtt.clouddn.com/CLLx79mI9XAz6JgbQyfLF8hR62zgEuaaU70AX2mw.js"></script>
+
+  <script>
+    var userId = '<%=userId%>';
+    var title = '<%=title%>';
+  </script>
+
+  <style>
+    html,
+    body,
+    .page {
+      height: 100%;
+    }
+
+    #wrapper {
+      position: absolute;
+      top: 49px;
+      bottom: 0;
+      overflow: hidden;
+      margin: 0;
+      width: 100%;
+      padding: 0 8px;
+      background-color: #f8f8f8;
+    }
+
+    .am-list {
+      margin: 0;
+    }
+
+    .am-list > li {
+      background: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .pull-action {
+      text-align: center;
+      height: 45px;
+      line-height: 45px;
+      color: #999;
+    }
+
+    .pull-action .am-icon-spin {
+      display: none;
+    }
+
+    .pull-action.loading .am-icon-spin {
+      display: block;
+    }
+
+    .pull-action.loading .pull-label {
+      display: none;
+    }
+
+    .itemflowername{
+      color:black;
+    }
+
+    img.itemicon{
+      width:45px;
+      height:45px;
+    }
+
+    .itemdata{
+      font-size:0.775em;
+      color:gray;
+    }
+  </style>
+
+  <script>
+
+//    var app = null;
+//    var orderstate = '[0]';
+//    $(document).ready(function(){
+//      $("#allbtn").click(function(){
+//        orderstate = '[0]';
+//        if(app == null)
+//          return;
+//        app.renderList(0, 'refresh');
+//
+//      });
+//
+//      $("#ingbtn").click(function(){
+//        orderstate = '[1,3,5]';
+//        if(app == null)
+//          return;
+//        app.renderList(0, 'refresh');
+//
+//      });
+//
+//      $("#completebtn").click(function(){
+//        orderstate = '[-1,10]';
+//        if(app == null)
+//          return;
+//        app.renderList(0, 'refresh');
+//
+//      });
+//
+//      //金额
+//      $.post("http://flowerso2o.avosapps.com/user/money",
+//              {
+//                userId:userId
+//              },
+//              function(data,status){
+//                //alert("Data: " + data.object + "\nStatus: " + status);
+//                $(".moneyh1").text("收入:"+data.object/100+"元");
+//
+//              });
+//
+//    });
+
+  </script>
+</head>
+<body style="background-color:#f8f8f8">
+<div class="page" >
+
+
+  <header data-am-widget="header"  >
+    <h1 class="moneyh1" style="margin:20px;text-align: center;">
+      收入:暂无
+    </h1>
+    <div class="am-btn-group  am-btn-group-justify">
+      <button type="button" class="am-btn am-btn-success" id="allbtn">全部</button>
+      <button type="button" class="am-btn am-btn-success  "  id="ingbtn">进行中</button>
+      <button type="button" class="am-btn am-btn-success " id="completebtn">完成</button>
+    </div>
+  </header>
+
+  <div id="wrapper" data-am-widget="list_news"
+       class="am-list-news am-list-news-default"   style="margin-top:4em;">
+    <div class="am-list-news-bd">
+      <div class="pull-action loading" id="pull-down">
+        <span class="am-icon-arrow-down pull-label"
+              id="pull-down-label"> 下拉刷新</span>
+        <span class="am-icon-spinner am-icon-spin"></span>
+      </div>
+      <ul class="am-list" id="events-list">
+        <li class="am-list-item-desced">
+          <div class="am-list-item-text">
+            正在加载内容...
+          </div>
+        </li>
+      </ul>
+      <div class="pull-action" id="pull-up">
+        <span class="am-icon-arrow-down pull-label"
+              id="pull-up-label"> 上拉加载更多</span>
+        <span class="am-icon-spinner am-icon-spin"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/x-handlebars-template" id="tpi-list-item">
+  {{#each this}}
+
+  <li><a href='http://flowerso2o.avosapps.com/wechat/delivery/getOrder?orderId={{order.objectId}}'>
+      <div class='am-g '>
+        <div class='am-u-sm-3 '><img  class='itemicon item' src="{{formatImageUrl order.commoditySnapshotsString}}" /></div>
+        <div class='am-u-sm-9 '>
+
+          <div class='am-u-sm-8 itemflowername'>{{formatOrderName order.commoditySnapshotsString}}</div>
+
+          <div class='am-u-sm-4 itemflowername'>{{formatOrderpriceB order.totalCostPrice}}元</div>
+          <div class='am-u-sm-8 itemdata'>{{formatDate order.createdAt}}</div>
+          <div class='am-u-sm-4 itemdata'>{{formatOrderstate order.deliveryState}}</div>
+
+
+        </div>
+      </div>
+    </a>
+  </li>
+
+  {{/each}}
+</script>
+<script>
+
+
+(function($) {
+  var EventsList = function(element, options) {
+    var $main = $('#wrapper');
+    var $list = $main.find('#events-list');
+    var $pullDown = $main.find('#pull-down');
+    var $pullDownLabel = $main.find('#pull-down-label');
+    var $pullUp = $main.find('#pull-up');
+    var topOffset = -$pullDown.outerHeight();
+
+    this.compiler = Handlebars.compile($('#tpi-list-item').html());
+    // add the formatPhoneNumber helper
+    Handlebars.registerHelper("formatOrder", function(phoneNumber) {
+      var abc = "";
+
+      $.each(phoneNumber,function(i,n){
+        if(i == 0){
+          var jsonn = JSON.parse(n);
+          abc = jsonn;
+        }
+
+      });
+      return abc;
+    });
+    Handlebars.registerHelper('withm', function(context, options) {
+      var bar =[];
+      $.each(context,function(i,n){
+        if(i == 0){
+          var jsonn = JSON.parse(n);
+          bar = jsonn;
+        }
+      });
+      return options.fn(bar);
+    });
+    Handlebars.registerHelper('noop', function(options) {
+      return options.fn(this);
+    });
+    Handlebars.registerHelper("formatOrderName", function(phoneNumber) {
+      var abc = "";
+      var arr = JSON.parse(phoneNumber);
+      $.each(arr,function(i,n){
+        if(i == 0){
+          abc = n.name;
+        }
+      });
+      return abc;
+    });
+
+    Handlebars.registerHelper("formatOrderprice", function(phoneNumber) {
+      var abc = "";
+      $.each(phoneNumber,function(i,n){
+        if(i == 0){
+          var jsonn = JSON.parse(n);
+        //  abc = jsonn.price/100;
+		    abc = jsonn.originalPrice/100;
+
+        }
+
+      });
+      return abc;
+    });
+
+	   Handlebars.registerHelper("formatOrderpriceB", function(phoneNumber) {
+
+
+      return phoneNumber/100;
+    });
+
+
+
+	    Handlebars.registerHelper("formatImageUrl", function(phoneNumber) {
+      var abc = "";
+      var arr = JSON.parse(phoneNumber);
+      $.each(arr,function(i,n){
+        if(i == 0){
+          abc = n.coverView.url;
+        }
+
+      });
+      return abc;
+    });
+
+
+      Handlebars.registerHelper("formatDate", function(phoneNumber) {
+
+    var abc = phoneNumber.replace("T"," ").replace("Z"," ");
+	abc = abc.substring(0,abc.lastIndexOf("."));
+
+    return abc;
+  });
+    Handlebars.registerHelper("formatOrderstate", function(phoneNumber) {
+      var abc = "";
+      if(phoneNumber == -1){ //-1关闭
+        abc ="已关闭";
+      }else if(phoneNumber == 1){ //1有人抢单
+        abc ="等待发货";
+      }else if(phoneNumber == 3){//3已经取件
+        abc ="等待发货";
+      }else if(phoneNumber == 5){//5发货 配送中
+        abc ="配送中";
+      }else if(phoneNumber == 10){   //10配送完成
+        abc ="配送完成";
+      }else{ //0未知、未定义、不做限制
+        abc ="未知";
+      }
+      return abc;
+    });
+
+
+
+    this.prev = this.next = this.start = options.params.start;
+    this.total = null;
+
+    this.getURL = function(params) {
+      var queries = ['callback=?'];
+      for (var key in  params) {
+        if (key !== 'start') {
+          queries.push(key + '=' + params[key]);
+        }
+      }
+      queries.push('start=');
+      return options.api + '?' + queries.join('&');
+    };
+
+    this.renderList = function(start, type) {
+//      alert("renderlist");
+      var _this = this;
+      var $el = $pullDown;
+
+      if (type === 'load') {
+        $el = $pullUp;
+      }
+
+//      alert(userId);
+      //网络请求
+      $.post("http://flowerso2o.avosapps.com/delivery/getMyDelivery",
+              {
+                userId:userId,
+                withinData:1,
+                limit:'20',
+                skip:'0',
+                states:orderstate
+
+              }).then(function(data) {
+
+//                var dataStr = data.object.length+"\n";
+//                for (var i in data.object)
+//                {
+//                  dataStr+=(data.object[i].order.totalCostPrice+" -- "+data.object[i].order.totalPrice+"\n");
+//                }
+//                alert(dataStr);
+
+//                alert(data);
+
+
+                _this.total = data.total;
+                var html = _this.compiler(data.object);
+                if (type === 'refresh') {
+                  // $list.children('li').first().before(html);
+                  $list.empty();
+                  $list.append(html);
+                } else if (type === 'load') {
+                  $list.append(html);
+                } else {
+                  $list.html(html);
+                }
+
+                if(data.object.length<15){
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                  $list.append('<p>&nbsp</p>');
+                }
+
+                // refresh iScroll
+                setTimeout(function() {
+                  _this.iScroll.refresh();
+                }, 100);
+              }, function() {
+                //console.log('Error...');
+
+              }).always(function() {
+                _this.resetLoading($el);
+                if (type !== 'load') {
+                  _this.iScroll.scrollTo(0, topOffset, 800, $.AMUI.iScroll.utils.circular);
+                }
+              });
+    };
+
+    this.setLoading = function($el) {
+      $el.addClass('loading');
+    };
+
+    this.resetLoading = function($el) {
+      $el.removeClass('loading');
+    };
+
+    this.init = function() {
+      var myScroll = this.iScroll = new $.AMUI.iScroll('#wrapper', {});
+      // myScroll.scrollTo(0, topOffset);
+      var _this = this;
+      var pullFormTop = false;
+      var pullStart;
+
+      this.URL = this.getURL(options.params);
+      this.renderList(options.params.start);
+
+      myScroll.on('scrollStart', function() {
+        if (this.y >= topOffset) {
+          pullFormTop = true;
+        }
+
+        pullStart = this.y;
+        // console.log(this);
+      });
+
+      myScroll.on('scrollEnd', function() {
+        if (pullFormTop && this.directionY === -1) {
+          _this.handlePullDown();
+          //  alert('handlePullDown');
+
+        }
+        pullFormTop = false;
+
+        // pull up to load more
+        if (pullStart === this.y && (this.directionY === 1)) {
+          _this.handlePullUp();
+          // alert('handlePullUp');
+        }
+      });
+
+    };
+
+    this.handlePullDown = function() {
+      console.log('handle pull down');
+      // if (this.prev > 0) {
+      this.setLoading($pullDown);
+      this.prev -= options.params.count;
+      this.renderList(0, 'refresh');
+      //  } else {
+      //  console.log('别刷了，没有了');
+      //}
+    };
+
+    this.handlePullUp = function() {
+      console.log('handle pull up');
+      //   if (this.next < this.total) {
+      this.setLoading($pullUp);
+      this.next += options.params.count;
+      this.renderList(this.next, 'load');
+      // } else {
+      //console.log(this.next);
+      // this.iScroll.scrollTo(0, topOffset);
+      //}
+    }
+
+  };
+
+  $(function() {
+    //此处为无效代码
+    app = new EventsList(null, {
+      api: 'https://api.douban.com/v2/event/list',
+      params: {
+        start: 0,
+        type: 'music',
+        count: 20,
+        loc: 'beijing'
+      }
+    });
+    app.init();
+  });
+
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, false);
+
+})(window.jQuery);
+</script>
+</body>
+</html>
+<!--http://pnc.co.il/dev/iscroll-5-pull-to-refresh-and-infinite-demo.html-->

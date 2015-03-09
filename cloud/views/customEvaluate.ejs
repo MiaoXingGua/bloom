@@ -1,0 +1,141 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <title>商品评价</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<div data-role="page">
+    <div data-role="content"  >
+        <form method="post" action="">
+            <fieldset data-role="controlgroup">
+                <legend>请对您的礼物进行评价：</legend>
+                <label for="unlike">很喜欢</label>
+                <input type="radio" name="goodsmark" id="unlike" value="1">
+                <label for="justok">还好啦</label>
+                <input type="radio" name="goodsmark" id="justok" value="2">
+                <label for="verylike">不喜欢</label>
+                <input type="radio" name="goodsmark" id="verylike" value="3">
+            </fieldset>
+
+
+            <fieldset data-role="controlgroup" style="margin-top: 2em;margin-bottom: 2em;">
+                <legend>请对本次快递服务进行评价：</legend>
+                <label for="notgood">很满意</label>
+                <input type="radio" name="servemark" id="notgood" value="1">
+                <label for="good">态度一般</label>
+                <input type="radio" name="servemark" id="good" value="2">
+                <label for="verygood">不太好</label>
+                <input type="radio" name="servemark" id="verygood" value="3">
+            </fieldset>
+            <input type="button"   onclick="upload()"  value="提交" >
+        </form>
+    </div>
+</div>
+
+<code id="orderId" value="<%=orderId%>" style="display: none"></code>
+<script>
+
+    function upload(){
+
+        var gitf = "";
+        var delivery = "";
+        var orderId = $('code#orderId').attr('value');
+
+        //礼物评价   值1 、 2、3
+        var val1 = $('input:radio[name="goodsmark"]:checked').val();
+
+        //服务评价   值1 、 2、3
+        var val2 = $('input:radio[name="servemark"]:checked').val();
+//            alert("评价成功val1:"+val1+"  val2:"+val2);
+
+        if(val1 == null ){
+            alert("请对礼物评价");
+            return;
+        }
+
+        if(val2 == null ){
+            alert("请对服务评价");
+            return;
+        }
+
+        switch (val1){
+            case ("1"):{
+                gitf = "很喜欢";
+            }break;
+            case ("2"):{
+                gitf = "还好啦";
+            }break;
+            case ("3"):{
+                gitf = "不喜欢";
+            }break;
+        }
+
+        switch (val2){
+            case ("1"):{
+                delivery = "很满意";
+            }break;
+            case ("2"):{
+                delivery = "态度一般";
+            }break;
+            case ("3"):{
+                delivery = "不太好";
+            }break;
+        }
+
+        var URL = "http://192.168.199.232:3000/"+"order/customEvaluate/set/"+orderId;
+
+        var data = {
+            gitf:gitf,
+            delivery:delivery
+        };
+//        alert(JSON.stringify(data));
+
+        $.ajax({
+            type: 'POST',
+            url: URL ,
+            data: data ,
+            cache:false,
+            dataType:'json',
+            success:function(data) {
+
+                var object = data.object;
+
+                if (object)
+                {
+                    alert("评价成功 感谢您的支持!");
+                }
+                else
+                {
+                    var error = date.error;
+                    alert(JSON.stringify(error));
+                }
+            },
+            error : function(data) {
+
+                alert(JSON.stringify(data));
+            }
+        });
+    }
+
+    //    $(document).ready(function(){
+    //
+    //        alert(1111)
+    //        $('button.btn-loading-update').click(function () {
+    //
+    //        });
+    //    });
+
+</script>
+
+</body>
+</html>

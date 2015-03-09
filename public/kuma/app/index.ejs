@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta content=”width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;” name=”viewport” />
+    <meta content=”yes” name=”apple-mobile-web-app-capable” />
+    <meta content=”black” name=”apple-mobile-web-app-status-bar-style” />
+    <meta content=”telephone=no,email=no” name=”format-detection” />
+
+    <style>
+        input{
+            width: 90%;
+            height: 400px;
+            font-size:24px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+<!--<script>-->
+
+    <!--var userId = null;-->
+    <!--function sendParams(jsonString){-->
+
+<!--//        alert(jsonString);-->
+
+<!--//        var dict = {'userId':'测试id'};-->
+
+<!--//        jsonString = '{"userId":"测试id"}';-->
+<!--//-->
+        <!--var json = JSON.parse(jsonString)-->
+
+<!--//        alert(json);-->
+<!--//        var json = JSON.parse(JSON.stringify(dict));-->
+
+<!--//        alert(json.userId);-->
+<!--//-->
+        <!--userId = json.userId;-->
+<!--//        alert("我是:"+string);-->
+    <!--}-->
+
+<!--</script>-->
+
+
+<script type="text/javascript">
+
+    var xmlHttp = null;
+
+    function getXmlHttpObject() {
+
+        if (!xmlHttp)
+        {
+            try {
+                // Firefox, Opera 8.0+, Safari
+                xmlHttp = new XMLHttpRequest();
+            } catch(e) {
+                // Internet Explorer
+                try {
+                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                }catch(e){
+                    try{
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e){
+                        alert("您的浏览器不支持AJAX！");
+                    }
+                }
+            }
+        }
+
+        return xmlHttp;
+    }
+
+    function sendHttpRequest(URL,method){
+
+        if (!userId || userId.length==0)
+        {
+//            alert("请先登录");
+            confirm("请先登录");
+        }
+
+        if (!couponId || couponId.length==0)
+        {
+            alert("参数错误，请刷新重试");
+        }
+
+
+        getXmlHttpObject();
+
+        if (!xmlHttp)
+        {
+            alert("创建请求失败!!!");
+//            document.location.href="http://localhost:3000/hello"
+        }
+        else
+        {
+            //请求回调
+            xmlHttp.onreadystatechange = function()
+            {
+                //请求结束
+                /*
+                 0 	请求未初始化（在调用 open() 之前）
+                 1 	请求已提出（调用 send() 之前）
+                 2 	请求已发送（这里通常可以从响应得到内容头部）
+                 3 	请求处理中（响应中通常有部分数据可用，但是服务器还没有完成响应）
+                 4 	请求已完成（可以访问服务器响应并使用它）
+                 */
+//                alert(xmlHttp.readyState);
+//                alert(xmlHttp.status);
+//                alert(xmlHttp.readyState);
+                if (xmlHttp.readyState==4)
+                {
+//                    alert(xmlHttp.responseText);
+                    // 从服务器的response获得数据
+//                    alert(xmlHttp.responseText);
+//                    alert(xmlHttp.responseText);
+//                    document.myForm.time.value = xmlHttp.responseText;
+
+//                    alert(xmlHttp.responseText);
+
+                    var result = JSON.parse(xmlHttp.responseText);
+                    document.getElementById("result").innerHTML = result.object?result.object:result.error.message;
+
+                    var error = result.error;
+                    if (error)
+                    {
+                        alert(error.message);
+                    }
+                    else
+                    {
+                        alert("领取成功 \n 优惠券可在 我-我的钱包-我的优惠优惠券 中查看");
+                    }
+
+                }
+            }
+
+            //window.location.hostname
+            //请求设置
+//            var url = "http://localhost:3000"+"/addCouponToUser"; // JS
+
+//            alert(URL);
+            //        url = "http://localhost:3000/time.asp"; // asp
+            /**
+
+             method：请求的类型；GET 或 POST
+             url：文件在服务器上的位置
+             async：true（异步）或 false（同步）
+
+             */
+//            alert("userId="+userId+"&couponId="+couponId);
+            alert(URL);
+            xmlHttp.open(method,URL,true);
+            xmlHttp.setRequestHeader('Content-type',"application/x-www-form-urlencoded;"); // ？？？慢慢研究
+            xmlHttp.send("userId="+userId+"&couponId="+couponId);
+
+            //"fname=Bill&lname=Gates"
+            //userId=546f626be4b0e157a276a34a&couponId=546d9f87e4b09e6d7a3a460e
+
+//            xmlhttp.setRequestHeader({'Content-Type': 'text/plain;charset=utf-8'});    //POST头
+            //请求开始
+
+//            xmlHttp.send("userId="+userId+"& couponId"+couponId);
+
+//            xmlHttp.open("GET",URL,true);
+//            xmlHttp.send();
+        }
+    }
+
+</script>
+
+<style>
+span.custom
+/* #result id选择器*/
+/*p 标签选择器*/
+/*.class class选择器 */
+/*p.class class+标签选择器 */
+{
+    font-size: 300%;
+    text-align:center;
+    color:mediumvioletred;
+    font-family:arial;
+}
+</style>
+
+<!-- 占位符 -->
+<span class="custom" id="result" width="480" height="272">返回结果占位符</span>
+
+
+<!-- 请求按钮 -->
+<!--</br>-->
+<!--<input type="button" name="POST" value="iOS回调测试" onclick="callback()" />-->
+<!--</br>-->
+<input type="button" name="POST" value="我要小熊POST" onclick="sendHttpRequest('http://flowerso2o.avosapps.com/'+'coupon/addCouponToUser','POST') " />
+<!--<input type="button" name="GET" value="GET测试" onclick="sendHttpRequest('http://flowerso2o.avosapps.com/'+'coupon/addCouponToUser','GET')" />-->
+
+
+<code id="couponId" style="display: none;"><%= couponId%></code>
+<script>
+
+    var couponId = document.getElementById("couponId").innerHTML;
+    var userId = null;
+    var callback = function(){
+        document.location = "http://flowerso2o.avosapps.com/" + "ios_callback/" + "par1/" + "par2";
+    }
+
+var sendParams = function(paramsStr){
+
+var params = JSON.parse(paramsStr);
+userId = params.userId;
+}
+
+</script>
+
+</body>
+
+</html>
